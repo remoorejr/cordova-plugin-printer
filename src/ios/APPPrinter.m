@@ -173,9 +173,17 @@
          withSettings:(NSDictionary *)settings
 {
     __block id item;
+    __block UIPrintInteractionController* ctrl;
 
-    UIPrintInteractionController* ctrl =
-    [UIPrintInteractionController sharedPrintControllerWithSettings:settings];
+   //  UIPrintInteractionController* ctrl = [UIPrintInteractionController sharedPrintControllerWithSettings:settings];
+   // See https://github.com/katzer/cordova-plugin-printer/pull/292/commits/e14a07ead044e97545b50240f6ab618cbe995e6d
+   // Fix: Unable to PrintToPrinter is iOS 15 #281 #292
+  
+
+    dispatch_sync(dispatch_get_main_queue(), ^{
+         ctrl =
+         [UIPrintInteractionController sharedPrintControllerWithSettings:settings];
+     });
 
     ctrl.delegate = self;
 

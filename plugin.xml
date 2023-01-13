@@ -24,13 +24,13 @@
 <plugin id="cordova-plugin-printer"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version="0.8.0">
+        version="0.8.1">
 
     <name>Printer</name>
 
     <description>Prints HTML content</description>
 
-    <repo>https://github.com/katzer/cordova-plugin-printer.git</repo>
+    <repo>https://github.com/remoorejr/cordova-plugin-printer.git</repo>
 
     <keywords>appplant, printer, cordova</keywords>
 
@@ -94,9 +94,8 @@
             </feature>
         </config-file>
 
-        <preference name="ANDROID_SUPPORT_V4_VERSION" default="28.+"/>
-
-        <framework src="com.android.support:support-v4:$ANDROID_SUPPORT_V4_VERSION"/>
+        <preference name="ANDROIDX_CORE_VERSION" default="1.6.+"/>
+        <framework src="androidx.core:core:$ANDROIDX_CORE_VERSION" />
 
         <source-file src="src/android/PrintAdapter.java"
             target-dir="src/de/appplant/cordova/plugin/printer" />
