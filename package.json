@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-printer",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Prints HTML documents",
   "cordova": {
     "id": "cordova-plugin-printer",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/katzer/cordova-plugin-printer.git"
+    "url": "git+https://github.com/remoorejr/cordova-plugin-printer.git"
   },
   "keywords": [
     "appplant",
@@ -28,15 +28,15 @@
   "engines": [
     {
       "name": "cordova",
-      "version": ">=3.0.0"
+      "version": ">=10.0.0"
     },
     {
-      "name": "android-sdk",
-      "version": ">=19"
+      "name": "cordova-android",
+      "version": ">=9.0.0"
     },
     {
-      "name": "apple-ios",
-      "version": ">=8.0"
+      "name": "cordova-ios",
+      "version": ">=5.1.0"
     }
   ],
   "author": "Sebastián Katzer",

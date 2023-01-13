@@ -19,85 +19,77 @@
  under the License.
  */
 
-var exec  = require('cordova/exec'),
-    ua    = navigator.userAgent.toLowerCase(),
-    isIOS = ua.indexOf('ipad') > -1 || ua.indexOf('iphone') > -1;
+var exec = require("cordova/exec"),
+  ua = navigator.userAgent.toLowerCase(),
+  isIOS =
+    ua.indexOf("ipad") > -1 ||
+    ua.indexOf("iphone") > -1 ||
+    window.cordova.platformId === "ios"; // Fix: pick method returns null in iOS 15 # 268
 
 // Defaults
 exports._defaults = {
-    // name:       'unknown',
-
-    // duplex: 'none',
-    // orientation: 'landscape',
-    // monochrome: false,
-    // photo: false,
-
-    // copies: 1,
-    // pageCount: 1,
-
-    // maxHeight: '10cm',
-    // maxWidth: '10cm',
-
-    // font: {
-    //     name: 'Helvetica',
-    //     align: 'left',
-    //     italic: false,
-    //     bold: false,
-    //     color: '#FF0000'
-    // },
-
-    // margin: {
-    //     top: 0,
-    //     left: 0,
-    //     bottom: 0,
-    //     right: 0
-    // },
-
-    // ui: {
-    //     hideNumberOfCopies: false,
-    //     hidePaperFormat:    false,
-    //     top: 30,
-    //     left: 40,
-    //     height: 0,
-    //     width: 0
-    // },
-
-    // paper: {
-    //     height: 0,
-    //     width: 0,
-    //     length: 0,
-    //     name: 'A4'
-    // },
-
-    // header: {
-    //     height: '1cm',
-
-    //     labels: [{
-    //         text: 'Awesome Printer Plug-in',
-    //         font: {
-    //             align: 'center',
-    //             italic: true,
-    //             color: '#FF0000'
-    //         }
-    //     },{
-    //         showPageIndex: true,
-    //         font: {
-    //             align: 'right',
-    //             bold: true
-    //         }
-    //     }]
-    // },
-
-    // footer: {
-    //     height: '3mm',
-
-    //     label: {
-    //         text: 'Copyright (c) 2013-2019 Sebastián Katzer',
-    //         font: { size: 9 },
-    //         top: '1.5mm',
-    //         right: '5mm'
-    //     }
-    // }
+  // name:       'unknown',
+  // duplex: 'none',
+  // orientation: 'landscape',
+  // monochrome: false,
+  // photo: false,
+  // copies: 1,
+  // pageCount: 1,
+  // maxHeight: '10cm',
+  // maxWidth: '10cm',
+  // font: {
+  //     name: 'Helvetica',
+  //     align: 'left',
+  //     italic: false,
+  //     bold: false,
+  //     color: '#FF0000'
+  // },
+  // margin: {
+  //     top: 0,
+  //     left: 0,
+  //     bottom: 0,
+  //     right: 0
+  // },
+  // ui: {
+  //     hideNumberOfCopies: false,
+  //     hidePaperFormat:    false,
+  //     top: 30,
+  //     left: 40,
+  //     height: 0,
+  //     width: 0
+  // },
+  // paper: {
+  //     height: 0,
+  //     width: 0,
+  //     length: 0,
+  //     name: 'A4'
+  // },
+  // header: {
+  //     height: '1cm',
+  //     labels: [{
+  //         text: 'Awesome Printer Plug-in',
+  //         font: {
+  //             align: 'center',
+  //             italic: true,
+  //             color: '#FF0000'
+  //         }
+  //     },{
+  //         showPageIndex: true,
+  //         font: {
+  //             align: 'right',
+  //             bold: true
+  //         }
+  //     }]
+  // },
+  // footer: {
+  //     height: '3mm',
+  //     label: {
+  //         text: 'Copyright (c) 2013-2019 Sebastián Katzer',
+  //         font: { size: 9 },
+  //         top: '1.5mm',
+  //         right: '5mm'
+  //     }
+  // }
 };
 
 /**
@@ -110,18 +102,16 @@ exports._defaults = {
  *
  * @return [ Void ]
  */
-exports.canPrintItem = function (uri, callback, scope)
-{
-    if (typeof uri == 'function')
-    {
-        scope    = callback;
-        callback = uri;
-        uri      = null;
-    }
+exports.canPrintItem = function (uri, callback, scope) {
+  if (typeof uri == "function") {
+    scope = callback;
+    callback = uri;
+    uri = null;
+  }
 
-    var fn = this._createCallbackFn(callback, scope);
+  var fn = this._createCallbackFn(callback, scope);
 
-    exec(fn, null, 'Printer', 'check', [uri]);
+  exec(fn, null, "Printer", "check", [uri]);
 };
 
 /**
@@ -132,11 +122,10 @@ exports.canPrintItem = function (uri, callback, scope)
  *
  * @return [ Void ]
  */
-exports.getPrintableTypes = function (callback, scope)
-{
-    var fn = this._createCallbackFn(callback, scope);
+exports.getPrintableTypes = function (callback, scope) {
+  var fn = this._createCallbackFn(callback, scope);
 
-    exec(fn, null, 'Printer', 'types', []);
+  exec(fn, null, "Printer", "types", []);
 };
 
 /**
@@ -148,26 +137,21 @@ exports.getPrintableTypes = function (callback, scope)
  *
  * @return [ Void ]
  */
-exports.pick = function (options, callback, scope)
-{
-    if (typeof options == 'function')
-    {
-        scope    = callback;
-        callback = options;
-        options  = {};
-    }
+exports.pick = function (options, callback, scope) {
+  if (typeof options == "function") {
+    scope = callback;
+    callback = options;
+    options = {};
+  }
 
-    var fn     = this._createCallbackFn(callback, scope),
-        params = this._mergeWithDefaults({ ui: options });
+  var fn = this._createCallbackFn(callback, scope),
+    params = this._mergeWithDefaults({ ui: options });
 
-    if (isIOS)
-    {
-        exec(fn, null, 'Printer', 'pick', [params]);
-    }
-    else if (fn)
-    {
-        fn(null);
-    }
+  if (isIOS) {
+    exec(fn, null, "Printer", "pick", [params]);
+  } else if (fn) {
+    fn(null);
+  }
 };
 
 /**
@@ -178,28 +162,25 @@ exports.pick = function (options, callback, scope)
  * @param [ Function ] callback The callback function.
  * @param [ Object ]   scope    The scope for the function.
  */
-exports.print = function (content, options, callback, scope)
-{
-    if (typeof content == 'function')
-    {
-        scope    = options;
-        callback = content;
-        options  = {};
-        content  = null;
-    }
+exports.print = function (content, options, callback, scope) {
+  if (typeof content == "function") {
+    scope = options;
+    callback = content;
+    options = {};
+    content = null;
+  }
 
-    if (typeof options == 'function')
-    {
-        scope    = callback;
-        callback = options;
-        options  = typeof content != 'string' ? content : {};
-        content  = typeof content == 'string' ? content : null;
-    }
+  if (typeof options == "function") {
+    scope = callback;
+    callback = options;
+    options = typeof content != "string" ? content : {};
+    content = typeof content == "string" ? content : null;
+  }
 
-    var fn     = this._createCallbackFn(callback, scope),
-        params = this._mergeWithDefaults(options || {});
+  var fn = this._createCallbackFn(callback, scope),
+    params = this._mergeWithDefaults(options || {});
 
-    exec(fn, null, 'Printer', 'print', [content || '', params]);
+  exec(fn, null, "Printer", "print", [content || "", params]);
 };
 
 /**
@@ -207,23 +188,18 @@ exports.print = function (content, options, callback, scope)
  *
  * @return [ Object ]
  */
-exports.getDefaults = function ()
-{
-    var map = Object.assign({}, this._defaults);
+exports.getDefaults = function () {
+  var map = Object.assign({}, this._defaults);
 
-    for (var key in map)
-    {
-        if (Array.isArray(map[key]))
-        {
-            map[key] = Array.from(map[key]);
-        }
-        else if (Object.prototype.isPrototypeOf(map[key]))
-        {
-            map[key] = Object.assign({}, map[key]);
-        }
+  for (var key in map) {
+    if (Array.isArray(map[key])) {
+      map[key] = Array.from(map[key]);
+    } else if (Object.prototype.isPrototypeOf(map[key])) {
+      map[key] = Object.assign({}, map[key]);
     }
+  }
 
-    return map;
+  return map;
 };
 
 /**
@@ -233,9 +209,8 @@ exports.getDefaults = function ()
  *
  * @return [ Void ]
  */
-exports.setDefaults = function (newDefaults)
-{
-    Object.assign(this._defaults, newDefaults);
+exports.setDefaults = function (newDefaults) {
+  Object.assign(this._defaults, newDefaults);
 };
 
 /**
@@ -245,30 +220,24 @@ exports.setDefaults = function (newDefaults)
  *
  * @retrun [ Object ]
  */
-exports._mergeWithDefaults = function (options)
-{
-    var defaults = this.getDefaults();
+exports._mergeWithDefaults = function (options) {
+  var defaults = this.getDefaults();
 
-    if (options.duplex && typeof options.duplex == 'boolean')
-    {
-        options.duplex = options.duplex ? 'long' : 'none';
+  if (options.duplex && typeof options.duplex == "boolean") {
+    options.duplex = options.duplex ? "long" : "none";
+  }
+
+  Object.assign(defaults, options);
+
+  for (var key in defaults) {
+    if (defaults[key] !== null) {
+      options[key] = defaults[key];
+    } else {
+      delete options[key];
     }
+  }
 
-    Object.assign(defaults, options);
-
-    for (var key in defaults)
-    {
-        if (defaults[key] !== null)
-        {
-            options[key] = defaults[key];
-        }
-        else
-        {
-            delete options[key];
-        }
-    }
-
-    return options;
+  return options;
 };
 
 /**
@@ -282,22 +251,20 @@ exports._mergeWithDefaults = function (options)
  *
  * @return [ Function ] The new callback function
  */
-exports._createCallbackFn = function (callback, scope)
-{
-    if (typeof callback !== 'function')
-        return;
+exports._createCallbackFn = function (callback, scope) {
+  if (typeof callback !== "function") return;
 
-    return function () {
-        callback.apply(scope || this, arguments);
-    };
+  return function () {
+    callback.apply(scope || this, arguments);
+  };
 };
 
 // Polyfill for Object.assign
-if (typeof Object.assign != 'function') {
-  Object.assign = function(target) {
-    'use strict';
+if (typeof Object.assign != "function") {
+  Object.assign = function (target) {
+    "use strict";
     if (target == null) {
-      throw new TypeError('Cannot convert undefined or null to object');
+      throw new TypeError("Cannot convert undefined or null to object");
     }
 
     target = Object(target);
@@ -322,12 +289,16 @@ if (!Array.from) {
   Array.from = (function () {
     var toStr = Object.prototype.toString;
     var isCallable = function (fn) {
-      return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+      return typeof fn === "function" || toStr.call(fn) === "[object Function]";
     };
     var toInteger = function (value) {
       var number = Number(value);
-      if (isNaN(number)) { return 0; }
-      if (number === 0 || !isFinite(number)) { return number; }
+      if (isNaN(number)) {
+        return 0;
+      }
+      if (number === 0 || !isFinite(number)) {
+        return number;
+      }
       return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
     };
     var maxSafeInteger = Math.pow(2, 53) - 1;
@@ -337,7 +308,7 @@ if (!Array.from) {
     };
 
     // The length property of the from method is 1.
-    return function from(arrayLike/*, mapFn, thisArg */) {
+    return function from(arrayLike /*, mapFn, thisArg */) {
       // 1. Let C be the this value.
       var C = this;
 
@@ -346,17 +317,21 @@ if (!Array.from) {
 
       // 3. ReturnIfAbrupt(items).
       if (arrayLike == null) {
-        throw new TypeError("Array.from requires an array-like object - not null or undefined");
+        throw new TypeError(
+          "Array.from requires an array-like object - not null or undefined"
+        );
       }
 
       // 4. If mapfn is undefined, then let mapping be false.
       var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
       var T;
-      if (typeof mapFn !== 'undefined') {
+      if (typeof mapFn !== "undefined") {
         // 5. else
         // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
         if (!isCallable(mapFn)) {
-          throw new TypeError('Array.from: when provided, the second argument must be a function');
+          throw new TypeError(
+            "Array.from: when provided, the second argument must be a function"
+          );
         }
 
         // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -381,7 +356,10 @@ if (!Array.from) {
       while (k < len) {
         kValue = items[k];
         if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+          A[k] =
+            typeof T === "undefined"
+              ? mapFn(kValue, k)
+              : mapFn.call(T, kValue, k);
         } else {
           A[k] = kValue;
         }
@@ -392,5 +370,5 @@ if (!Array.from) {
       // 20. Return A.
       return A;
     };
-  }());
+  })();
 }
