@@ -28,15 +28,15 @@
   "engines": [
     {
       "name": "cordova",
-      "version": ">=3.0.0"
+      "version": ">=7.1.0"
     },
     {
-      "name": "android-sdk",
-      "version": ">=19"
+      "name": "cordova-android",
+      "version": ">=6.3.0"
     },
     {
-      "name": "apple-ios",
-      "version": ">=8.0"
+      "name": "cordova-ios",
+      "version": ">=5.1.0"
     }
   ],
   "author": "Sebastián Katzer",
